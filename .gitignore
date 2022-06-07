@@ -7,4 +7,4 @@ node_modules
 .env
 
 # generated css
-app/styles/base-generated.css
+app/styles/*-generated.css

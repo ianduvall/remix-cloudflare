@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import baseStylesUrl from "./styles/base-generated.css";
+import rootStylesUrl from "./styles/root-generated.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -17,17 +17,17 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: baseStylesUrl }];
+  return [{ rel: "stylesheet", href: rootStylesUrl }];
 };
 
 export default function App() {
   return (
-    <html lang="en" dir="ltr">
+    <html dir="ltr" lang="en">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="container">
+      <body className="prose p-3 md:mx-auto md:p-0">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
