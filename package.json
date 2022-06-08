@@ -20,9 +20,9 @@
     "@remix-run/cloudflare-pages": "^1.5.1",
     "@remix-run/react": "^1.5.1",
     "cross-env": "^7.0.3",
-    "react": "^17.0.2",
+    "react": "^18.1.0",
     "react-a11y-dialog": "^6.1.5",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.1.0",
     "tailwind-merge": "^1.2.1"
   },
   "devDependencies": {
@@ -31,8 +31,8 @@
     "@remix-run/eslint-config": "^1.5.1",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/typography": "^0.5.2",
-    "@types/react": "^17.0.45",
-    "@types/react-dom": "^17.0.17",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.11",
     "eslint": "^8.15.0",
