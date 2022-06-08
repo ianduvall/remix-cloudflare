@@ -1,45 +1,20 @@
-import React from "react";
-import { Details, Dialog } from "~/ui";
+import React, { startTransition } from "react";
+import { Dialog } from "~/ui";
 import { useA11yDialog } from "react-a11y-dialog";
-import { NavLinks } from "./NavLinks";
 
-const title = "Navigation";
-const nav = (
-  <nav className="flex flex-col">
-    <NavLinks />
-  </nav>
-);
+type Open = boolean;
 
-const useIsClient = (): boolean => {
-  const [isClient, setIsClient] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  return isClient;
-};
-
-export const Nav = React.memo(function Nav() {
-  const isClient = useIsClient();
-
-  // to support navigation without js, show details when ssr or after hydration
-  if (!isClient) {
-    return <NavDetails />;
-  }
-
-  return <NavDialog />;
-});
-
-const NavDetails = React.memo<{}>(function NavDetails() {
-  return (
-    <Details.Root>
-      <Details.Summary className="list-none">{title}</Details.Summary>
-      {nav}
-    </Details.Root>
-  );
-});
-const NavDialog = React.memo<{}>(function Nav() {
+export default function NavDialog({
+  title,
+  nav,
+  hidden,
+  initialOpen,
+}: {
+  title: React.ReactNode;
+  nav: React.ReactNode;
+  hidden: boolean;
+  initialOpen?: Open;
+}) {
   // `instance` is the `a11y-dialog` instance.
   // `attr` is an object with the following keys:
   // - `container`: the dialog container
@@ -60,13 +35,27 @@ const NavDialog = React.memo<{}>(function Nav() {
     title: "Navigation",
   });
 
+  React.useEffect(() => {
+    if (instance && initialOpen) {
+      if (initialOpen) {
+        instance.show();
+      }
+    }
+  }, [initialOpen, instance]);
+
   return (
     <>
-      <button type="button" onClick={() => instance.show()}>
+      <button
+        type="button"
+        hidden={hidden}
+        onClick={() => {
+          instance.show();
+        }}
+      >
         {title}
       </button>
 
-      <Dialog.Root {...attr.container}>
+      <Dialog.Root {...attr.container} hidden={hidden}>
         <Dialog.Overlay {...attr.overlay} />
 
         <Dialog.Content {...attr.dialog}>
@@ -81,4 +70,4 @@ const NavDialog = React.memo<{}>(function Nav() {
       </Dialog.Root>
     </>
   );
-});
+}

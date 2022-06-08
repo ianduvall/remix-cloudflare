@@ -1,21 +1,55 @@
 import type { EntryContext } from "@remix-run/cloudflare";
 import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
+import { renderToReadableStream } from "react-dom/server";
+import isbot from "isbot";
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  let markup = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
-  );
+  let controller = new AbortController();
+  let didError = false;
 
-  responseHeaders.set("Content-Type", "text/html");
+  try {
+    let stream = await renderToReadableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        signal: controller.signal,
+        onError(error) {
+          didError = true;
+          console.error(error);
+        },
+      }
+    );
 
-  return new Response("<!DOCTYPE html>" + markup, {
-    status: responseStatusCode,
-    headers: responseHeaders,
-  });
+    const isBot = isbot(request.headers.get("user-agent"));
+
+    // buffer entire html for crawlers
+    if (isBot) {
+      await stream.allReady;
+    }
+
+    if (didError) {
+      responseStatusCode = 500;
+    }
+
+    return new Response(stream, {
+      status: responseStatusCode,
+      headers: { "Content-Type": "text/html" },
+    });
+  } catch (error) {
+    if (didError) {
+      responseStatusCode = 500;
+    }
+
+    return new Response(
+      '<!doctype html><p>Loading...</p><script src="clientrender.js"></script>',
+      {
+        status: responseStatusCode,
+        headers: { "Content-Type": "text/html" },
+      }
+    );
+  }
 }

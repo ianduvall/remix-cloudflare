@@ -6,7 +6,12 @@ interface DetailsRootProps extends React.ComponentPropsWithRef<"details"> {}
 const DetailsRoot = React.forwardRef<HTMLDetailsElement, DetailsRootProps>(
   function DetailsRoot(props, ref) {
     return (
-      <details {...props} ref={ref} className={twMerge(props.className)} />
+      <details
+        {...props}
+        ref={ref}
+        open={props.open || undefined}
+        className={twMerge(props.className)}
+      />
     );
   }
 );
