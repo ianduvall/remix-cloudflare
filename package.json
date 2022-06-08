@@ -13,15 +13,13 @@
     "format": "prettier .",
     "generate:css": "tailwindcss -i ./styles/root.css -o app/styles/root-generated.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "cross-env NODE_ENV=production npm run dev:wrangler",
-    "typecheck": "tsc"
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
   },
   "dependencies": {
     "@remix-run/cloudflare": "^1.5.1",
     "@remix-run/cloudflare-pages": "^1.5.1",
     "@remix-run/react": "^1.5.1",
     "cross-env": "^7.0.3",
-    "isbot": "^3.5.0",
     "react": "^18.1.0",
     "react-a11y-dialog": "^6.1.5",
     "react-dom": "^18.1.0",

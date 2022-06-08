@@ -1,19 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import type { useA11yDialog } from "react-a11y-dialog";
 
-type DialogRootProps = React.ComponentPropsWithRef<"div"> &
-  ReturnType<typeof useA11yDialog>[1]["container"] & {
-    children?: React.ReactNode;
-    container?: Element | DocumentFragment;
-  };
+interface DialogRootProps extends React.ComponentPropsWithRef<"div"> {
+  container?: Element | DocumentFragment;
+}
 
-const Root = React.forwardRef<React.ReactNode, DialogRootProps>(
+const Root = React.forwardRef<HTMLDivElement, DialogRootProps>(
   function DialogRoot({ container, ...props }, ref) {
     const node = (
       <div
         {...props}
-        // @ts-ignore - useA11yDialog thinks ref will accept React.ReactNode
         ref={ref}
         className="fixed inset-0 z-10 flex aria-hidden:hidden"
       />
