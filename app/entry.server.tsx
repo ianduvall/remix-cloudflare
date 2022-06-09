@@ -35,20 +35,22 @@ export default async function handleRequest(
       responseStatusCode = 500;
     }
 
+    responseHeaders.set("Content-Type", "text/html");
     return new Response(stream, {
       status: responseStatusCode,
-      headers: { "Content-Type": "text/html" },
+      headers: responseHeaders,
     });
   } catch (error) {
     if (didError) {
       responseStatusCode = 500;
     }
 
+    responseHeaders.set("Content-Type", "text/html");
     return new Response(
       '<!doctype html><p>Loading...</p><script src="clientrender.js"></script>',
       {
         status: responseStatusCode,
-        headers: { "Content-Type": "text/html" },
+        headers: responseHeaders,
       }
     );
   }
