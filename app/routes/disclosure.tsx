@@ -30,7 +30,7 @@ export default function DisclosureRoute() {
       }}
     >
       <summary>Summary</summary>
-      {open ? <div>Client content</div> : <div>Server content</div>}
+      <div>content</div>
     </details>
   );
 }
