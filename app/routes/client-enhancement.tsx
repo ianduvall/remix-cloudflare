@@ -1,77 +1,74 @@
 import React from "react";
 
-let hasImportedDiv = false;
-const importDiv = () => {
+const importDiv = (): ReturnType<typeof getDiv> => {
+  const getDiv = () => import("~/shared/Div");
   console.log("importing Div");
-  return import("~/shared/Div");
-};
-const importDivOnce = () => {
-  if (hasImportedDiv) {
-    return;
-  }
-  hasImportedDiv = true;
-  return importDiv();
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(getDiv()), 3000);
+  });
 };
 const LazyDiv = React.lazy(importDiv);
 
 export default function ClientEnhancementRoute() {
-  const renderFallback = React.useCallback(
-    ({ isPending }: { isPending: boolean }) => (
-      <div>fallback content{isPending ? " (enhancing...)" : ""}</div>
-    ),
-    []
-  );
+  const [deferred, setDeferred] = React.useState<boolean>(false);
+
+  const [{ enhanced, pending }, startEnhancement] = useClientEnhancement({
+    deferred,
+  });
 
   return (
     <div>
-      <React.Suspense fallback={<div>Root suspense fallback</div>}>
-        <ClientEnhancement
-          deferred
-          onEnhancing={importDivOnce}
-          renderFallback={renderFallback}
-        >
-          {React.useCallback(
-            ({ isPending }) => (
-              <React.Suspense fallback={<div>Loading lazy content...</div>}>
-                <LazyDiv>
-                  Lazy loaded content{isPending ? "(pending)" : ""}
-                </LazyDiv>
-              </React.Suspense>
-            ),
-            []
-          )}
-        </ClientEnhancement>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" onChange={() => setDeferred((prev) => !prev)} />
+        <span>Deferred</span>
+      </label>
+      <button className="block" onClick={startEnhancement}>
+        Enhance
+      </button>
+
+      <React.Suspense fallback={<div>Suspense fallback</div>}>
+        {enhanced ? (
+          <LazyDiv>Lazy loaded content</LazyDiv>
+        ) : (
+          <div>Fallback content {pending ? "(pending)" : ""}</div>
+        )}
       </React.Suspense>
     </div>
   );
 }
 
-type ReturnJsxElement = (state: { isPending: boolean }) => JSX.Element;
-const ClientEnhancement = ({
-  children,
-  renderFallback,
-  deferred,
-  onEnhancing,
-}: {
-  children: ReturnJsxElement;
-  renderFallback: ReturnJsxElement;
-  deferred?: boolean;
-  onEnhancing?: () => void;
-}) => {
+type StartEnhancement = () => void;
+function useClientEnhancement({ deferred }: { deferred: false }): [
+  {
+    enhanced: boolean;
+    pending: false;
+  },
+  StartEnhancement
+];
+function useClientEnhancement({ deferred }: { deferred: boolean }): [
+  {
+    enhanced: boolean;
+    pending: boolean;
+  },
+  StartEnhancement
+];
+function useClientEnhancement({ deferred }: { deferred: boolean }): [
+  {
+    enhanced: boolean;
+    pending: boolean;
+  },
+  StartEnhancement
+] {
   const [enhanced, setEnhanced] = React.useState<boolean>(false);
+  const [pending, startTransition] = React.useTransition();
 
-  const [isPending, startTransition] = React.useTransition();
-
-  React.useEffect(() => {
+  const startEnhancement = React.useCallback(() => {
     if (enhanced) {
-      // if already enhanced bail out
       return;
     }
 
     const setEnhancedTrue = () => {
       console.log("enhancing");
-
-      onEnhancing?.();
       setEnhanced(true);
     };
 
@@ -80,11 +77,13 @@ const ClientEnhancement = ({
     } else {
       setEnhancedTrue();
     }
-  }, [deferred, enhanced, onEnhancing]);
+  }, [deferred, enhanced]);
 
-  return (
-    <React.Suspense fallback={renderFallback({ isPending: true })}>
-      {enhanced ? children({ isPending }) : renderFallback({ isPending })}
-    </React.Suspense>
-  );
-};
+  return [
+    {
+      enhanced,
+      pending,
+    },
+    startEnhancement,
+  ];
+}
