@@ -1,19 +1,15 @@
 import React from "react";
-import { Dialog } from "~/ui";
+import { Dialog } from "ui";
 import { useA11yDialog } from "react-a11y-dialog";
-
-type Open = boolean;
 
 export default function NavDialog({
   title,
   nav,
-  hidden,
-  initialOpen,
+  open,
 }: {
   title: React.ReactNode;
   nav: React.ReactNode;
-  hidden: boolean;
-  initialOpen?: Open;
+  open?: boolean;
 }) {
   // `instance` is the `a11y-dialog` instance.
   // `attr` is an object with the following keys:
@@ -36,26 +32,16 @@ export default function NavDialog({
   });
 
   React.useEffect(() => {
-    if (instance && initialOpen) {
-      if (initialOpen) {
+    if (instance) {
+      if (open) {
         instance.show();
       }
     }
-  }, [initialOpen, instance]);
+  }, [instance, open]);
 
   return (
     <>
-      <button
-        type="button"
-        hidden={hidden}
-        onClick={() => {
-          instance.show();
-        }}
-      >
-        {title}
-      </button>
-
-      <Dialog.Root {...attr.container} hidden={hidden}>
+      <Dialog.Root {...attr.container}>
         <Dialog.Overlay {...attr.overlay} />
 
         <Dialog.Content {...attr.dialog}>

@@ -1,9 +1,11 @@
-import React from "react";
+import { forwardRef } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { useOpenAttributeState } from "ui/useOpenAttribute";
 
-interface DetailsRootProps extends React.ComponentPropsWithRef<"details"> {}
+interface DetailsRootProps extends ComponentPropsWithRef<"details"> {}
 
-const DetailsRoot = React.forwardRef<HTMLDetailsElement, DetailsRootProps>(
+const DetailsRoot = forwardRef<HTMLDetailsElement, DetailsRootProps>(
   function DetailsRoot(props, ref) {
     return (
       <details
@@ -16,9 +18,9 @@ const DetailsRoot = React.forwardRef<HTMLDetailsElement, DetailsRootProps>(
   }
 );
 
-interface DetailsSummaryProps extends React.ComponentPropsWithRef<"summary"> {}
+interface DetailsSummaryProps extends ComponentPropsWithRef<"summary"> {}
 
-const DetailsSummary = React.forwardRef<HTMLElement, DetailsSummaryProps>(
+const DetailsSummary = forwardRef<HTMLElement, DetailsSummaryProps>(
   function DetailsSummary(props, ref) {
     return (
       <summary
@@ -33,4 +35,6 @@ const DetailsSummary = React.forwardRef<HTMLElement, DetailsSummaryProps>(
 export const Details = {
   Root: DetailsRoot,
   Summary: DetailsSummary,
+
+  useOpenState: useOpenAttributeState,
 } as const;

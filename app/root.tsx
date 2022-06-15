@@ -22,12 +22,12 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return (
-    <html dir="ltr" lang="en">
+    <html dir="ltr" lang="en" style={{ colorScheme: "light dark" }}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="prose p-3 md:mx-auto md:p-0">
+      <body className="prose prose-slate bg-slate-50 p-3 dark:prose-invert dark:bg-slate-900 md:mx-auto md:p-0">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

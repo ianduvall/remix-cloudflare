@@ -16,10 +16,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^0.7.2",
     "@remix-run/cloudflare": "^1.6.0",
     "@remix-run/cloudflare-pages": "^1.6.0",
     "@remix-run/react": "^1.6.0",
     "cross-env": "^7.0.3",
+    "framer-motion": "^6.3.11",
     "react": "^18.2.0",
     "react-a11y-dialog": "^6.1.5",
     "react-dom": "^18.2.0",

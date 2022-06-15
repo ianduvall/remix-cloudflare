@@ -1,36 +1,22 @@
-import React from "react";
-
-const id = "disclosure";
-const isClient = () => typeof document !== "undefined";
-
-const openStateInit = () => {
-  if (isClient()) {
-    const disclosureElement = document.getElementById(
-      id
-    ) as HTMLDetailsElement | null;
-
-    return Boolean(disclosureElement?.open);
-  }
-
-  return false;
-};
+import { useId } from "react";
+import { Details } from "ui";
 
 export default function DisclosureRoute() {
-  console.log("rendering");
-
-  const [open, setOpen] = React.useState<boolean>(openStateInit);
+  const id = useId();
+  const [open, setOpen] = Details.useOpenState({
+    getElement: () => document.getElementById(id) as HTMLDetailsElement | null,
+  });
 
   return (
-    <details
+    <Details.Root
       id={id}
       open={open}
       onToggle={(ev) => {
-        console.log("toggling");
         setOpen(ev.currentTarget.open);
       }}
     >
-      <summary>Summary</summary>
+      <Details.Summary>Summary</Details.Summary>
       <div>content</div>
-    </details>
+    </Details.Root>
   );
 }

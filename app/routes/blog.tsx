@@ -1,6 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import { Nav } from "~/shared";
-import { A } from "~/ui";
+import { A } from "ui";
 
 export default function BlogPostLayout() {
   return (

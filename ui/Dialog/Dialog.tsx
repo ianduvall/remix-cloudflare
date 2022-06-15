@@ -50,7 +50,7 @@ const Content = React.forwardRef<HTMLDivElement, DialogContentProps>(
         {...props}
         ref={ref}
         className={
-          "not-prose relative z-10 m-auto -mb-4 w-11/12 max-w-screen-md rounded border border-gray-500 bg-white p-4 pb-8 md:mb-auto md:pb-4"
+          "not-prose relative z-10 m-auto -mb-4 w-11/12 max-w-screen-md rounded border border-gray-500 bg-slate-50 p-4 pb-8 shadow-lg dark:bg-slate-800 md:mb-auto md:pb-4"
         }
       />
     );
