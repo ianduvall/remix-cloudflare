@@ -1,6 +1,6 @@
 {
   "editor.tabSize": 2,
-  "cSpell.words": ["tailwindcss"],
+  "cSpell.words": ["cssnano", "Duvall", "ianduvall", "Popout", "tailwindcss"],
   "files.associations": {
     "*.css": "tailwindcss"
   },

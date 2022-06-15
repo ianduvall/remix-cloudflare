@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Details, useOpenAttributeState } from "ui";
-import { NavLinks } from "../NavLinks";
+import { NavLinks } from "./NavLinks";
 
 export const Nav = memo<{}>(function Nav() {
   const id = "navigation";
@@ -8,7 +8,6 @@ export const Nav = memo<{}>(function Nav() {
     getElement: () => document.getElementById(id) as HTMLDetailsElement | null,
   });
   const close = () => {
-    console.log("close");
     setOpen(false);
   };
 

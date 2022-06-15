@@ -7,12 +7,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { ExternalLink, InternalLink } from "ui";
+import { Nav } from "./shared";
 
 import rootStylesUrl from "./styles/root-generated.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Ian Duvall | Software Engineer",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -27,8 +29,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="prose prose-slate bg-slate-50 p-3 dark:prose-invert dark:bg-slate-900 md:mx-auto md:p-0">
+      <body className="mx-auto max-w-screen-lg bg-slate-50 px-3 dark:bg-slate-900 lg:px-4">
+        <Header />
         <Outlet />
+        <Footer />
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -36,3 +41,30 @@ export default function App() {
     </html>
   );
 }
+
+const Header = () => {
+  return (
+    <header className="my-3 flex items-center lg:my-4">
+      <InternalLink to="/" className="current text-xl !no-underline">
+        Ian Duvall
+      </InternalLink>
+      <span className="flex-grow" />
+      <Nav />
+    </header>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="flex flex-col items-center">
+      <p className="">&copy; Ian Duvall {new Date().getFullYear()}</p>
+      <ul className="flex">
+        <li>
+          <ExternalLink href="https://github.com/ianduvall">
+            github
+          </ExternalLink>
+        </li>
+      </ul>
+    </footer>
+  );
+};

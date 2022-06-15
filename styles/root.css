@@ -4,10 +4,11 @@
 
 @layer components {
   .link {
-    @apply text-teal-600 underline;
+    @apply text-teal-600 hover:text-teal-700 dark:text-teal-300 dark:hover:text-teal-200;
   }
   .link[aria-current="page"],
-  .link.active {
-    @apply text-teal-700;
+  .link.active,
+  .current {
+    @apply text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200;
   }
 }
