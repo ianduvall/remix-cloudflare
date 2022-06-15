@@ -1,4 +1,4 @@
-import React, { startTransition } from "react";
+import React from "react";
 import { Dialog } from "~/ui";
 import { useA11yDialog } from "react-a11y-dialog";
 
